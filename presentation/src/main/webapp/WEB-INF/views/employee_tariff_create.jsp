@@ -1,0 +1,99 @@
+<%@ page language="java" contentType="text/html; charset=US-ASCII"
+         pageEncoding="US-ASCII" %>
+<%@ page import="ru.simflex.ex.entities.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--
+Employee tariff management page.
+--%>
+<html>
+<head>
+    <title>eCare16 | Employee Tariff Management</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <spring:url value="/resources/css/my.css" var="myCss"/>
+    <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapMinCss"/>
+    <spring:url value="/resources/img/favicon.ico" var="favicon"/>
+    <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapMinJs"/>
+    <link href="${favicon}" rel="shortcut icon" type="image/x-icon">
+    <link href="${myCss}" rel="stylesheet"/>
+    <link href="${bootstrapMinCss}" rel="stylesheet"/>
+</head>
+<body>
+<c:set var="tariffsActive" value="active"/>
+<c:set var="createTariffActive" value="active"/>
+<%@include file="employee_header.jsp" %>
+
+<div class="container">
+    <div class="jumbotron">
+
+        <%--Create Tariff Form--%>
+        <form class="form-horizontal" action="/employeeCreateTariff" method="post">
+
+            <div class="form-group">
+                <label for="createTariffName" class="col-sm-4 control-label">
+                    <spring:message code="label.tariffName"/></label>
+                <div class="col-sm-4">
+                    <input type="text" minlength="2" maxlength="30"
+                           title="<spring:message code="input.tariffNameTitle"/>"
+                           class="form-control" id="createTariffName" name="name"
+                           placeholder="<spring:message code="label.tariffName"/>" value="${newTariff.name}" required>
+                </div>
+                <div class="col-sm-4 text-danger" style="padding-top: 7px">
+                    <form:errors path="newTariff.name"/>
+                    <c:if test="${!empty notUniqueTariffName}">
+                        <spring:message code="label.${notUniqueTariffName}"/>
+                    </c:if>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="createTariffMonthlyPayment" class="col-sm-4 control-label">
+                    <spring:message code="label.tariffMonthlyPayment"/>
+                </label>
+                <div class="col-sm-4">
+                    <input type="number" min="0" max="999" title="<spring:message code="input.tariffPriceTitle"/>"
+                           class="form-control" id="createTariffMonthlyPayment"
+                           name="monthlyPayment" value="${newTariff.monthlyPayment}"
+                           placeholder="<spring:message code="label.tariffMonthlyPayment"/>"
+                           required>
+                </div>
+                <div class="col-sm-4 text-danger" style="padding-top: 7px">
+                    <form:errors path="newTariff.monthlyPayment" />
+                </div>
+            </div>
+
+            <%--Foreach for optionList--%>
+            <c:forEach var="option" items="${optionList}" varStatus="loop">
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-4">
+                        <div class="checkbox">
+                            <c:set var="optionChecked" value="false"/>
+                            <c:forEach var="possibleOption" items="${newTariff.possibleOptions}">
+                                <c:if test="${possibleOption.id == option.id}">
+                                    <c:set var="optionChecked" value="checked"/>
+                                </c:if>
+                            </c:forEach>
+                            <label>
+                                <input type="checkbox" name="possibleOptions"
+                                       value="${option.id}" ${optionChecked}/> ${option.name}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <input type="submit" class="btn btn-success" value="<spring:message code="label.create"/>"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="${bootstrapMinJs}"></script>
+</body>
+</html>

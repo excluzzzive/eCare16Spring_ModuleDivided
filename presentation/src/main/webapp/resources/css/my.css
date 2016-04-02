@@ -1,0 +1,39 @@
+.div-login {
+    margin: 30px;
+    width: 600px !important;
+}
+
+.div-common-form {
+    margin: 30px;
+    width: 400px !important;
+}
+
+.div-welcome {
+    width: 600px;
+}
+.div-login .div-input {
+    padding-bottom: 10px;
+}
+
+.label-float-left {
+    float: left; !important;
+}
+body {
+    min-height: 2000px;
+}
+
+.navbar-static-top {
+    margin-bottom: 19px;
+}
+
+.my-footer {
+    margin-top: 15px;
+}
+
+.table-nonfluid {
+    width: auto !important;
+}
+
+.p-error {
+    color: red !important;
+}
