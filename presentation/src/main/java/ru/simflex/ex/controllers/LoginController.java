@@ -100,6 +100,11 @@ public class LoginController {
         User user = (User) httpSession.getAttribute(Attributes.USER);
 
         if (user == null) {
+
+            if (email == null || password == null) {
+                return Pages.LOGIN_PAGE;
+            }
+
             User authUser = userService.authUser(email, password);
 
             if (authUser != null) {
@@ -141,6 +146,11 @@ public class LoginController {
         User user = (User) httpSession.getAttribute(Attributes.USER);
 
         if (user == null) {
+
+            if (email == null || password == null) {
+                return Pages.LOGIN_PAGE;
+            }
+
             User authUser = userService.authUser(email, password);
 
             if (authUser != null) {

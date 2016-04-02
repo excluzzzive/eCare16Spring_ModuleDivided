@@ -14,7 +14,6 @@ import ru.simflex.ex.exceptions.UserReadingException;
 import ru.simflex.ex.exceptions.UserUpdatingException;
 import ru.simflex.ex.services.interfaces.UserService;
 
-import javax.persistence.NoResultException;
 import java.util.*;
 
 /**
@@ -32,6 +31,7 @@ public class UserServiceImplementation implements UserService {
 
     /**
      * UserDao setter.
+     *
      * @param userDao UserDao object
      */
     public void setUserDao(UserDao userDao) {
@@ -44,7 +44,9 @@ public class UserServiceImplementation implements UserService {
     @Transactional
     public User authUser(String email, String password) {
         try {
-            email = email.toLowerCase();
+            if (email != null) {
+                email = email.toLowerCase();
+            }
             return userDao.authUser(email, password);
         } catch (Exception e) {
             throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
@@ -94,7 +96,7 @@ public class UserServiceImplementation implements UserService {
         User user;
         try {
             user = userDao.getUserByPhoneNumber(phoneNumberString);
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             throw new UserReadingException("User not found or incorrect phone number!", e);
         }
 

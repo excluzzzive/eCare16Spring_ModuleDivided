@@ -73,12 +73,14 @@ public class ServletExceptionHandler extends HttpServlet {
             uri = "Unknown";
         }
 
-        if (user == null) {
+        if (ex != null) {
             ex.printStackTrace();
+        }
+
+        if (user == null) {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(Actions.SHOW_LOGIN_PAGE);
             requestDispatcher.forward(request, response);
         } else {
-            ex.printStackTrace();
             request.setAttribute(Attributes.URI, uri);
             request.setAttribute(Attributes.EXCEPTION, ex);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(Actions.SHOW_ERROR_PAGE);
