@@ -5,22 +5,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
-import ru.simflex.ex.dao.interfaces.ContractDao;
 import ru.simflex.ex.dao.interfaces.UserDao;
 import ru.simflex.ex.entities.Contract;
-import ru.simflex.ex.entities.PhoneNumber;
 import ru.simflex.ex.entities.User;
 import ru.simflex.ex.exceptions.UserCreatingException;
 import ru.simflex.ex.exceptions.UserDeletingException;
 import ru.simflex.ex.exceptions.UserReadingException;
 import ru.simflex.ex.exceptions.UserUpdatingException;
 import ru.simflex.ex.services.interfaces.UserService;
-import ru.simflex.ex.webservices.entities.WSUser;
 
 import javax.persistence.NoResultException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -37,10 +31,12 @@ public class UserServiceImplementation implements UserService {
     private UserDao userDao;
 
     /**
-     * ContractDao instance.
+     * UserDao setter.
+     * @param userDao UserDao object
      */
-    @Autowired
-    private ContractDao contractDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     /**
      * {@inheritDoc}

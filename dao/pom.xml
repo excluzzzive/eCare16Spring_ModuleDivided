@@ -10,4 +10,14 @@
     <artifactId>dao</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+
+        <!-- Common module -->
+        <dependency>
+            <groupId>ru.simflex.ex</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
 </project>

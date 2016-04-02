@@ -14,6 +14,7 @@ import ru.simflex.ex.services.interfaces.PhoneNumberService;
 import ru.simflex.ex.util.Utility;
 import ru.simflex.ex.constants.Attributes;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -166,6 +167,9 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<PhoneNumber> getPhoneNumberListByPage(int page) {
         try {
 
@@ -185,10 +189,21 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         }
     }
 
-//    public int getCurrentPageByPhoneNumberString(String phoneNumberString) {
-//        List<PhoneNumber> phoneNumberList = phoneNumberDao.getAllEntitiesSorted();
-//        int totalPages = Utility.getTotalPages(phoneNumberList.size(), Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
-//
-//        return page;
-//    }
+    public int getCurrentPageByPhoneNumberString(String phoneNumberString) {
+        List<PhoneNumber> phoneNumberList = phoneNumberDao.getAllEntitiesSorted();
+
+        int phoneNumberIndex = 0;
+        for (int i = 0; i < phoneNumberList.size(); i++) {
+            if (phoneNumberList.get(i).getPhoneNumberString().equals(phoneNumberString)) {
+                phoneNumberIndex = i + 1;
+                break;
+            }
+        }
+
+        if (phoneNumberIndex % Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE == 0) {
+            return phoneNumberIndex / Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE;
+        } else {
+            return phoneNumberIndex / Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE + 1;
+        }
+    }
 }

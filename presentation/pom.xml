@@ -11,12 +11,21 @@
     <packaging>war</packaging>
 
     <dependencies>
+
         <!-- Service Module -->
         <dependency>
             <groupId>ru.simflex.ex</groupId>
             <artifactId>service</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <!-- Common module -->
+        <dependency>
+            <groupId>ru.simflex.ex</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

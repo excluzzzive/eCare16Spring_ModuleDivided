@@ -10,6 +10,7 @@ import ru.simflex.ex.entities.PhoneNumber;
 import ru.simflex.ex.exceptions.PhoneNumberCreatingException;
 import ru.simflex.ex.services.interfaces.PhoneNumberService;
 import ru.simflex.ex.constants.*;
+import ru.simflex.ex.util.Utility;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -43,9 +44,8 @@ public class PhoneNumberController {
     @RequestMapping(value = "/showEmployeePhoneNumberListPage")
     public String showPhoneNumberListPage(@RequestParam(value = "page") Integer page, Model model) {
 
-//        long phoneNumberCount = phoneNumberService.getPhoneNumberCount();
-//        int totalPages = Utility.getTotalPages(phoneNumberCount, Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
-        int totalPages = 2;
+        long phoneNumberCount = phoneNumberService.getPhoneNumberCount();
+        int totalPages = Utility.getTotalPages(phoneNumberCount, Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
 
         List<PhoneNumber> phoneNumberList = phoneNumberService.getPhoneNumberListByPage(page - 1);
 
@@ -81,6 +81,7 @@ public class PhoneNumberController {
 
         try {
             phoneNumberService.addPhoneNumber(newPhoneNumber);
+            page = phoneNumberService.getCurrentPageByPhoneNumberString(newPhoneNumber);
         } catch (PhoneNumberCreatingException e) {
             model.addAttribute(Attributes.PHONE_NUMBER_INVALID, true);
         }

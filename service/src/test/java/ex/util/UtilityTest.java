@@ -3,6 +3,7 @@ package ex.util;
 import org.junit.Test;
 import ru.simflex.ex.util.Utility;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -28,5 +29,23 @@ public class UtilityTest {
     public void parsePrice_Must_Return_Exception_If_Negative() throws Exception {
         String priceString = "-2.5";
         Utility.parsePrice(priceString);
+    }
+
+    @Test
+    public void getTotalPages_Correct_When_Page_Is_Full() {
+        int entityCount = 50;
+        int limitPerPages = 10;
+        int expectedResult = 5;
+        int result = Utility.getTotalPages(entityCount, limitPerPages);
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void getTotalPages_Correct_When_Page_Is_Not_Full() {
+        int limitPerPages = 10;
+        int entityCount = 48;
+        int expectedResult = 5;
+        int result = Utility.getTotalPages(entityCount, limitPerPages);
+        assertEquals(expectedResult, result);
     }
 }
