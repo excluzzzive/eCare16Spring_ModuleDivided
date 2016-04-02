@@ -2,8 +2,8 @@ package ru.simflex.ex.filter;
 
 import org.apache.log4j.Logger;
 import ru.simflex.ex.entities.User;
-import ru.simflex.ex.util.constants.Actions;
-import ru.simflex.ex.util.constants.Attributes;
+import ru.simflex.ex.constants.Actions;
+import ru.simflex.ex.constants.Attributes;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;

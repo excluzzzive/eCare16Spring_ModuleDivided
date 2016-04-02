@@ -61,4 +61,11 @@ public interface PhoneNumberService {
      */
     PhoneNumber getPhoneNumberByString(String phoneNumberString);
 
+    /**
+     * Returns list of phone numbers depending on the page.
+     * @param page Page number
+     * @return List of PhoneNumber objects
+     */
+    List<PhoneNumber> getPhoneNumberListByPage(int page);
+
 }

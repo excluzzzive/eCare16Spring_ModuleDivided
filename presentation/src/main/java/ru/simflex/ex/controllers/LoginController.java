@@ -5,14 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ru.simflex.ex.entities.Option;
 import ru.simflex.ex.entities.Tariff;
 import ru.simflex.ex.entities.User;
 import ru.simflex.ex.services.interfaces.OptionService;
 import ru.simflex.ex.services.interfaces.TariffService;
 import ru.simflex.ex.services.interfaces.UserService;
-import ru.simflex.ex.util.constants.*;
+import ru.simflex.ex.constants.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

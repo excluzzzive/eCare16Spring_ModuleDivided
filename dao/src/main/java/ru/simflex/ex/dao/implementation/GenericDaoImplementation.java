@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Generic DAO implementation abstract class.
  */
-public abstract class GenericDaoImplementation<E> implements GenericDao<E> {
+public abstract class GenericDaoImplementation<E> implements GenericDao<E>  {
 
     /**
      * EntityManager instance.

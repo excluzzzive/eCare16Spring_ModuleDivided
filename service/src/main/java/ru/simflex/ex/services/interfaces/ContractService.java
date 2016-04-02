@@ -2,10 +2,14 @@ package ru.simflex.ex.services.interfaces;
 
 
 import ru.simflex.ex.entities.Contract;
+import ru.simflex.ex.entities.Option;
+import ru.simflex.ex.entities.PhoneNumber;
+import ru.simflex.ex.entities.Tariff;
 import ru.simflex.ex.entities.User;
 import ru.simflex.ex.webservices.entities.WSUser;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contract service interface.

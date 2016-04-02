@@ -57,7 +57,7 @@
                     </ul>
                 </li>
 
-                <li class="${phoneNumbersActive}"><a href="/showEmployeePhoneNumberListPage">
+                <li class="${phoneNumbersActive}"><a href="/showEmployeePhoneNumberListPage?page=1">
                     <spring:message code="label.phoneNumbers"/></a></li>
 
             </ul>

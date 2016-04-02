@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
 import ru.simflex.ex.dao.interfaces.*;
-import ru.simflex.ex.entities.*;
+import ru.simflex.ex.entities.Contract;
+import ru.simflex.ex.entities.Option;
+import ru.simflex.ex.entities.PhoneNumber;
+import ru.simflex.ex.entities.Tariff;
+import ru.simflex.ex.entities.User;
 import ru.simflex.ex.exceptions.ContractCreatingException;
 import ru.simflex.ex.exceptions.ContractDeletingException;
 import ru.simflex.ex.exceptions.ContractReadingException;
@@ -16,6 +20,7 @@ import ru.simflex.ex.services.interfaces.OptionService;
 import ru.simflex.ex.webservices.entities.WSUser;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 

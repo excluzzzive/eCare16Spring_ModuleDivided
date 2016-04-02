@@ -8,14 +8,20 @@ import ru.simflex.ex.annotations.Loggable;
 import ru.simflex.ex.dao.interfaces.ContractDao;
 import ru.simflex.ex.dao.interfaces.UserDao;
 import ru.simflex.ex.entities.Contract;
+import ru.simflex.ex.entities.PhoneNumber;
 import ru.simflex.ex.entities.User;
 import ru.simflex.ex.exceptions.UserCreatingException;
 import ru.simflex.ex.exceptions.UserDeletingException;
 import ru.simflex.ex.exceptions.UserReadingException;
 import ru.simflex.ex.exceptions.UserUpdatingException;
 import ru.simflex.ex.services.interfaces.UserService;
+import ru.simflex.ex.webservices.entities.WSUser;
 
-import java.util.List;
+import javax.persistence.NoResultException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * User service implementation class.
@@ -92,7 +98,7 @@ public class UserServiceImplementation implements UserService {
         User user;
         try {
             user = userDao.getUserByPhoneNumber(phoneNumberString);
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             throw new UserReadingException("User not found or incorrect phone number!", e);
         }
 

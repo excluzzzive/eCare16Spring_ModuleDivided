@@ -11,6 +11,8 @@ import ru.simflex.ex.exceptions.PhoneNumberCreatingException;
 import ru.simflex.ex.exceptions.PhoneNumberDeletingException;
 import ru.simflex.ex.exceptions.PhoneNumberReadingException;
 import ru.simflex.ex.services.interfaces.PhoneNumberService;
+import ru.simflex.ex.util.Utility;
+import ru.simflex.ex.constants.Attributes;
 
 import java.util.List;
 
@@ -164,4 +166,29 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         }
     }
 
+    public List<PhoneNumber> getPhoneNumberListByPage(int page) {
+        try {
+
+            int totalPages = Utility.getTotalPages(phoneNumberDao.getEntityCount(),
+                    Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
+
+            if (page < 0) {
+                throw new PhoneNumberReadingException("Incorrect page number!");
+            } else if (page > totalPages - 1) {
+                page = totalPages - 1;
+            }
+
+                return phoneNumberDao.getPhoneNumberListByPage(page);
+        } catch (Exception e) {
+            throw new PhoneNumberReadingException("Something gone wrong, " +
+                    "try again or contact system administrator!", e);
+        }
+    }
+
+//    public int getCurrentPageByPhoneNumberString(String phoneNumberString) {
+//        List<PhoneNumber> phoneNumberList = phoneNumberDao.getAllEntitiesSorted();
+//        int totalPages = Utility.getTotalPages(phoneNumberList.size(), Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
+//
+//        return page;
+//    }
 }

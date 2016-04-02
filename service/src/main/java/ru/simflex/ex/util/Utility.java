@@ -27,6 +27,20 @@ public class Utility {
     }
 
     /**
+     * Method counts number of pages for pagination by summ and limit.
+     * @param entityCount Quantity of entities
+     * @param limitPerPage Limit of objects per page
+     * @return Quantity of pages
+     */
+    public static int getTotalPages(long entityCount, int limitPerPage) {
+        if (entityCount % limitPerPage == 0) {
+            return (int) entityCount / limitPerPage;
+        } else {
+            return (int) entityCount / limitPerPage + 1;
+        }
+    }
+
+    /**
      * Restrict constructor.
      */
     private Utility() {

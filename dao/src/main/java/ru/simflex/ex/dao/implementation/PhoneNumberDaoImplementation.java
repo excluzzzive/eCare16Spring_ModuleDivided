@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.simflex.ex.dao.interfaces.PhoneNumberDao;
 import ru.simflex.ex.entities.PhoneNumber;
+import ru.simflex.ex.constants.Attributes;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -60,5 +60,16 @@ public class PhoneNumberDaoImplementation extends GenericDaoImplementation<Phone
             result = phoneNumberList.get(0);
         }
         return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    public List<PhoneNumber> getPhoneNumberListByPage(int page) {
+        Query query = entityManager.createQuery("SELECT p FROM PhoneNumber p ORDER BY p.phoneNumberString ASC");
+        query.setFirstResult(page * Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
+        query.setMaxResults(Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
+        return query.getResultList();
     }
 }

@@ -14,10 +14,10 @@ import ru.simflex.ex.entities.Tariff;
 import ru.simflex.ex.services.interfaces.ContractService;
 import ru.simflex.ex.services.interfaces.OptionService;
 import ru.simflex.ex.services.interfaces.TariffService;
-import ru.simflex.ex.util.constants.Actions;
-import ru.simflex.ex.util.constants.Attributes;
-import ru.simflex.ex.util.constants.Pages;
-import ru.simflex.ex.util.constants.Parameters;
+import ru.simflex.ex.constants.Actions;
+import ru.simflex.ex.constants.Attributes;
+import ru.simflex.ex.constants.Pages;
+import ru.simflex.ex.constants.Parameters;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

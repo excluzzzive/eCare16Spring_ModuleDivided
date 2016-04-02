@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.simflex.ex.entities.*;
 import ru.simflex.ex.exceptions.ContractCreatingException;
 import ru.simflex.ex.services.interfaces.*;
-import ru.simflex.ex.util.constants.Actions;
-import ru.simflex.ex.util.constants.Attributes;
-import ru.simflex.ex.util.constants.Pages;
-import ru.simflex.ex.util.constants.Parameters;
+import ru.simflex.ex.constants.Actions;
+import ru.simflex.ex.constants.Attributes;
+import ru.simflex.ex.constants.Pages;
+import ru.simflex.ex.constants.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -266,7 +266,7 @@ public class ContractController {
             String phoneNumberId = request.getParameter(Parameters.PHONE_NUMBER_ID);
             if (phoneNumberId != null && !phoneNumberId.isEmpty()) {
                 PhoneNumber newPhoneNumber = phoneNumberService.getPhoneNumberById(phoneNumberId);
-                if (!newPhoneNumber.isAvailable()) {
+                if (newPhoneNumber == null || !newPhoneNumber.isAvailable()) {
                     List<PhoneNumber> phoneNumberList = phoneNumberService.getAvailablePhoneNumberList();
                     modelAndView.addObject(Attributes.PHONE_NUMBER_LIST, phoneNumberList);
                     modelAndView.addObject(Attributes.NOT_AVAILABLE_PHONE_NUMBER, Attributes.NOT_AVAILABLE_PHONE_NUMBER);

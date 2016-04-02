@@ -1,4 +1,4 @@
-package ru.simflex.ex.util.constants;
+package ru.simflex.ex.constants;
 
 /**
  * Utility class for attribute constants.
@@ -394,6 +394,15 @@ public final class Attributes {
      */
     public static final String NOT_UNIQUE_EMAIL = "notUniqueEmail";
 
+    /**
+     * Number of phone numbers per page.
+     */
+    public static final int LIMIT_PHONE_NUMBERS_PER_PAGE = 10;
+
+    /**
+     * Total pages attribute.
+     */
+    public static final String TOTAL_PAGES = "totalPages";
 
 
     /**

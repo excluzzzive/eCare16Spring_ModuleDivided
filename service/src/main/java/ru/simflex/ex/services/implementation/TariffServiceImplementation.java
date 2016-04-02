@@ -16,10 +16,10 @@ import ru.simflex.ex.exceptions.TariffReadingException;
 import ru.simflex.ex.exceptions.TariffUpdatingException;
 import ru.simflex.ex.services.interfaces.ContractService;
 import ru.simflex.ex.services.interfaces.TariffService;
+import ru.simflex.ex.util.Utility;
 import ru.simflex.ex.webservices.entities.WSTariff;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Tariff service implementation class.

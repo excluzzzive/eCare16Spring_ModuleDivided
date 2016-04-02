@@ -1,4 +1,4 @@
-package ru.simflex.ex.util.constants;
+package ru.simflex.ex.constants;
 
 /**
  * Utility class for action constants.

@@ -4,6 +4,7 @@ import ru.simflex.ex.entities.Tariff;
 import ru.simflex.ex.webservices.entities.WSTariff;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Tariff service interface.

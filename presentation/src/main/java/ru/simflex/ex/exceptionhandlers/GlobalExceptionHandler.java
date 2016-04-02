@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.simflex.ex.entities.User;
-import ru.simflex.ex.util.constants.Attributes;
-import ru.simflex.ex.util.constants.Pages;
+import ru.simflex.ex.constants.Attributes;
+import ru.simflex.ex.constants.Pages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

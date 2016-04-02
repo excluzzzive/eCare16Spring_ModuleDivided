@@ -19,6 +19,7 @@
 
     <!-- Scanning for Webservice and used beans -->
     <context:component-scan base-package="ru.simflex.ex"/>
+    <mvc:annotation-driven/>
 
     <!-- Look up the database in JNDI -->
     <jee:jndi-lookup jndi-name="java:jboss/datasources/ecare16" id="dataSource"/>
