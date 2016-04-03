@@ -33,11 +33,18 @@ Error page.
         <hr width="200px" align="right">
         <br>
 
-        <h3>Exception Details</h3>
-        <strong>Status Code</strong>: 500 <br>
-        <strong>Requested URI</strong>: ${uri} <br>
-        <strong>Exception Message</strong>: ${exception.getMessage()} <br>
+        <c:if test="${errorCode == 404}">
+            <h3>Error Occurred</h3>
+            <strong>Status Code</strong>: ${errorCode} <br>
+            <strong>Message</strong>: Page not found <br>
+        </c:if>
 
+        <c:if test="${exception != null}">
+            <h3>Exception Details</h3>
+            <strong>Status Code</strong>: 500 <br>
+            <strong>Requested URI</strong>: ${uri} <br>
+            <strong>Exception Message</strong>: ${exception.getMessage()} <br>
+        </c:if>
         <%--
         <br>
         <div class="row">

@@ -73,7 +73,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/showErrorPage</location>
+        <location>/show404Page</location>
     </error-page>
     <error-page>
         <error-code>400</error-code>

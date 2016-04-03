@@ -47,6 +47,10 @@ public class PhoneNumberController {
         long phoneNumberCount = phoneNumberService.getPhoneNumberCount();
         int totalPages = Utility.getTotalPages(phoneNumberCount, Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
 
+        if (page > totalPages) {
+            page = totalPages;
+        }
+
         List<PhoneNumber> phoneNumberList = phoneNumberService.getPhoneNumberListByPage(page - 1);
 
         int beginIndex = Math.max(1, page - 5);

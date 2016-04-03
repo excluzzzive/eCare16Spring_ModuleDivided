@@ -173,16 +173,11 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
     public List<PhoneNumber> getPhoneNumberListByPage(int page) {
         try {
 
-            int totalPages = Utility.getTotalPages(phoneNumberDao.getEntityCount(),
-                    Attributes.LIMIT_PHONE_NUMBERS_PER_PAGE);
-
             if (page < 0) {
                 throw new PhoneNumberReadingException("Incorrect page number!");
-            } else if (page > totalPages - 1) {
-                page = totalPages - 1;
             }
 
-                return phoneNumberDao.getPhoneNumberListByPage(page);
+            return phoneNumberDao.getPhoneNumberListByPage(page);
         } catch (Exception e) {
             throw new PhoneNumberReadingException("Something gone wrong, " +
                     "try again or contact system administrator!", e);

@@ -178,6 +178,7 @@ public class LoginController {
 
     /**
      * Logout action.
+     *
      * @param model Model object
      * @return View to redirect
      */
@@ -205,7 +206,8 @@ public class LoginController {
 
     /**
      * Show error page action.
-     * @param model Model object
+     *
+     * @param model   Model object
      * @param request Request object
      * @return View to redirect
      */
@@ -219,6 +221,13 @@ public class LoginController {
         model.addAttribute(Attributes.EXCEPTION, ex);
         model.addAttribute(Attributes.URI, uri);
 
+        return Pages.ERROR_PAGE;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @RequestMapping(value = Actions.SHOW_404_PAGE)
+    public String show404Page(Model model) {
+        model.addAttribute(Attributes.ERROR_CODE, 404);
         return Pages.ERROR_PAGE;
     }
 }

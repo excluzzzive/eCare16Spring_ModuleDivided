@@ -16,6 +16,11 @@ public final class Actions {
     public static final String SHOW_ERROR_PAGE = "/showErrorPage";
 
     /**
+     * Show 404 page action.
+     */
+    public static final String SHOW_404_PAGE = "/show404Page";
+
+    /**
      * User authenticate action.
      */
     public static final String USER_AUTHENTICATE = "/userAuthenticate";

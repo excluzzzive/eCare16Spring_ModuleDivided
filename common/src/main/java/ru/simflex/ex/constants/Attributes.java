@@ -360,6 +360,11 @@ public final class Attributes {
     public static final String EXCEPTION = "exception";
 
     /**
+     * Error code attribute.
+     */
+    public static final String ERROR_CODE = "errorCode";
+
+    /**
      * URI attribute.
      */
     public static final String URI = "uri";
