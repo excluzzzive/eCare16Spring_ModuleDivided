@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
          pageEncoding="US-ASCII" %>
-<%@ page import="ru.simflex.ex.entities.*"%>
+<%@ page import="ru.simflex.ex.entities.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -17,6 +17,7 @@ Employee user management page.
     <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapMinCss"/>
     <spring:url value="/resources/img/favicon.ico" var="favicon"/>
     <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapMinJs"/>
+    <spring:url value="/resources/js/validator.js" var="validatorJs"/>
     <link href="${favicon}" rel="shortcut icon" type="image/x-icon">
     <link href="${myCss}" rel="stylesheet"/>
     <link href="${bootstrapMinCss}" rel="stylesheet"/>
@@ -29,36 +30,34 @@ Employee user management page.
     <div class="jumbotron">
 
         <%--Create User Form--%>
-        <form class="form-horizontal" action="/employeeCreateUser" method="post">
+        <form data-toggle="validator" class="form-horizontal" action="/employeeCreateUser" method="post">
 
             <div class="form-group">
                 <label for="userFirstName" class="col-sm-4 control-label"><spring:message
                         code="label.userFirstName"/></label>
                 <div class="col-sm-4">
-                    <input type="text" minlength="2" maxlength="20"
+                    <input type="text" class="form-control" id="userFirstName" name="firstName"
+                           maxlength="20" pattern="<spring:message code="input.userFirstNamePattern"/>"
                            title="<spring:message code="input.userFirstNameTitle"/>"
-                           class="form-control" id="userFirstName" name="firstName"
+                           data-error="<spring:message code="input.userFirstNameTitle"/>"
                            placeholder="<spring:message code="label.userFirstName"/>" value="${newUser.firstName}"
                            required>
                 </div>
-                <div class="col-sm-4" style="padding-top: 7px">
-                    <form:errors path="newUser.firstName" class="text-danger"/>
-                </div>
+                <div class="help-block with-errors"></div>
             </div>
 
             <div class="form-group">
                 <label for="userLastName" class="col-sm-4 control-label"><spring:message
                         code="label.userLastName"/></label>
                 <div class="col-sm-4">
-                    <input type="text" minlength="2" maxlength="20"
+                    <input type="text" class="form-control" id="userLastName" name="lastName"
+                           maxlength="20" pattern="<spring:message code="input.userLastNamePattern"/>"
                            title="<spring:message code="input.userLastNameTitle"/>"
-                           class="form-control" id="userLastName" name="lastName"
+                           data-error="<spring:message code="input.userLastNameTitle"/>"
                            placeholder="<spring:message code="label.userLastName"/>" value="${newUser.lastName}"
                            required>
                 </div>
-                <div class="col-sm-4" style="padding-top: 7px">
-                    <form:errors path="newUser.lastName" class="text-danger"/>
-                </div>
+                <div class="help-block with-errors"></div>
             </div>
 
             <div class="form-group">
@@ -69,7 +68,7 @@ Employee user management page.
                            placeholder="<spring:message code="label.userBirthDate"/>" value="${newUserBirthDate}"
                            required>
                 </div>
-                <div class="col-sm-4" style="padding-top: 7px">
+                <div class="help-block">
                     <form:errors path="newUser.birthDate" class="text-danger"/>
                 </div>
             </div>
@@ -78,14 +77,15 @@ Employee user management page.
                 <label for="userPassportData" class="col-sm-4 control-label"><spring:message
                         code="label.userPassportData"/></label>
                 <div class="col-sm-4">
-                    <input type="text" minlength="8" maxlength="40"
+                    <input type="text" class="form-control" id="userPassportData" name="passportData"
+                           maxlength="40" pattern="<spring:message code="input.userPassportDataPattern"/>"
                            title="<spring:message code="input.userPassportDataTitle"/>"
-                           class="form-control" id="userPassportData" name="passportData"
+                           data-error="<spring:message code="input.userPassportDataTitle"/>"
                            placeholder="<spring:message code="label.userPassportData"/>" value="${newUser.passportData}"
                            required>
                 </div>
-                <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                    <form:errors path="newUser.passportData"/>
+                <div class="help-block with-errors"></div>
+                <div class="text-danger">
                     <c:if test="${!empty notUniquePassportData}">
                         <spring:message code="label.${notUniquePassportData}"/>
                     </c:if>
@@ -96,10 +96,12 @@ Employee user management page.
                 <label for="userEmail" class="col-sm-4 control-label"><spring:message code="label.userEmail"/></label>
                 <div class="col-sm-4">
                     <input type="email" class="form-control" id="userEmail" name="email"
+                           title="<spring:message code="input.userEmailTitle"/>"
+                           data-error="<spring:message code="input.userEmailTitle"/>"
                            placeholder="<spring:message code="label.userEmail"/>" value="${newUser.email}" required>
                 </div>
-                <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                    <form:errors path="newUser.email"/>
+                <div class="help-block with-errors"></div>
+                <div class="text-danger">
                     <c:if test="${!empty notUniqueEmail}">
                         <spring:message code="label.${notUniqueEmail}"/>
                     </c:if>
@@ -142,5 +144,6 @@ Employee user management page.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="${bootstrapMinJs}"></script>
+<script src="${validatorJs}"></script>
 </body>
 </html>

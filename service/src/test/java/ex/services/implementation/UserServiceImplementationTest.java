@@ -9,6 +9,7 @@ import ru.simflex.ex.dao.interfaces.UserDao;
 import ru.simflex.ex.entities.User;
 import ru.simflex.ex.exceptions.UserReadingException;
 import ru.simflex.ex.services.implementation.UserServiceImplementation;
+import ru.simflex.ex.util.Utility;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -48,11 +49,12 @@ public class UserServiceImplementationTest {
     public void authUser_Correct() {
         String email = "email@email.com";
         String password = "password";
+
         User expectedUser = getUser(0);
         expectedUser.setEmail(email);
-        expectedUser.setPassword(password);
+        expectedUser.setPassword(Utility.getHashedPassword(password));
 
-        when(userDao.authUser(email, password)).thenReturn(expectedUser);
+        when(userDao.authUser(email, Utility.getHashedPassword(password))).thenReturn(expectedUser);
         User resultUser = userService.authUser("eMaIL@email.com", password);
         assertEquals(expectedUser.getEmail(), resultUser.getEmail());
     }
@@ -63,9 +65,9 @@ public class UserServiceImplementationTest {
         String password = "incorrect_password";
         User expectedUser = getUser(0);
         expectedUser.setEmail(email);
-        expectedUser.setPassword(password);
+        expectedUser.setPassword(Utility.getHashedPassword(password));
 
-        when(userDao.authUser(email, password)).thenReturn(null);
+        when(userDao.authUser(email, Utility.getHashedPassword(password))).thenReturn(null);
         User resultUser = userService.authUser("eMaIL@email.com", password);
         assertEquals(null, resultUser);
     }
@@ -75,7 +77,7 @@ public class UserServiceImplementationTest {
     public void authUser_Must_Throw_Exception() {
         String email = "email@email.com";
         String password = "incorrect_password";
-        when(userDao.authUser(email, password)).thenThrow(Exception.class);
+        when(userDao.authUser(email, Utility.getHashedPassword(password))).thenThrow(Exception.class);
         userService.authUser(email, password);
     }
 

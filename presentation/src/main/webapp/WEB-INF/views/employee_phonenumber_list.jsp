@@ -15,6 +15,7 @@ Employee phone number management page.
     <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapMinCss"/>
     <spring:url value="/resources/img/favicon.ico" var="favicon"/>
     <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapMinJs"/>
+    <spring:url value="/resources/js/validator.js" var="validatorJs"/>
     <link href="${favicon}" rel="shortcut icon" type="image/x-icon">
     <link href="${myCss}" rel="stylesheet"/>
     <link href="${bootstrapMinCss}" rel="stylesheet"/>
@@ -32,7 +33,8 @@ Employee phone number management page.
             <small><i><spring:message code="label.contains11DigitsStartWith7"/></i></small>
         </h5>
 
-        <form role="form" class="form-inline" action="/employeeCreatePhoneNumber" method="post">
+        <form data-toggle="validator" role="form" class="form-inline" action="/employeeCreatePhoneNumber"
+              method="post">
             <div class="form-group">
                 <input type="hidden" name="currentIndex" value="${currentIndex}"/>
                 <input type="text" pattern="<spring:message code="input.phoneNumberPattern"/>"
@@ -47,6 +49,7 @@ Employee phone number management page.
             <c:if test="${!empty notUniquePhoneNumber}">
                 <h7 class="text-danger"><spring:message code="label.${notUniquePhoneNumber}"/></h7>
             </c:if>
+            <div class="help-block with-errors"></div>
         </form>
         <br>
         <table class="table table-condensed table-hover">
@@ -136,5 +139,6 @@ Employee phone number management page.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="${bootstrapMinJs}"></script>
+<script src="${validatorJs}"></script>
 </body>
 </html>

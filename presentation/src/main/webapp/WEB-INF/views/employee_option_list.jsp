@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
          pageEncoding="US-ASCII" %>
-<%@ page import="ru.simflex.ex.entities.*"%>
+<%@ page import="ru.simflex.ex.entities.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -16,6 +16,7 @@ Employee option management page.
     <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapMinCss"/>
     <spring:url value="/resources/img/favicon.ico" var="favicon"/>
     <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapMinJs"/>
+    <spring:url value="/resources/js/validator.js" var="validatorJs"/>
     <link href="${favicon}" rel="shortcut icon" type="image/x-icon">
     <link href="${myCss}" rel="stylesheet"/>
     <link href="${bootstrapMinCss}" rel="stylesheet"/>
@@ -39,7 +40,7 @@ Employee option management page.
             <hr width="150px" align="left">
 
                 <%--Update Option Form--%>
-            <form class="form-horizontal" action="/employeeUpdateOption" method="post">
+            <form data-toggle="validator" class="form-horizontal" action="/employeeUpdateOption" method="post">
 
                 <input type="hidden" name="id" value="${editedOption.id}"/>
 
@@ -47,14 +48,15 @@ Employee option management page.
                     <label for="updateOptionName" class="col-sm-4 control-label"><spring:message
                             code="label.optionName"/></label>
                     <div class="col-sm-4">
-                        <input type="text" minlength="2" maxlength="30"
+                        <input type="text" class="form-control" id="updateOptionName" name="name"
+                               maxlength="30" pattern="<spring:message code="input.optionNamePattern"/>"
                                title="<spring:message code="input.optionNameTitle"/>"
-                               class="form-control" id="updateOptionName" name="name"
+                               data-error="<spring:message code="input.optionNameTitle"/>"
                                placeholder="<spring:message code="label.optionName"/>" value="${editedOption.name}"
                                required>
                     </div>
-                    <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                        <form:errors path="editedOption.name" />
+                    <div class="help-block with-errors"></div>
+                    <div class="text-danger">
                         <c:if test="${!empty notUniqueOptionName}">
                             <spring:message code="label.${notUniqueOptionName}"/>
                         </c:if>
@@ -65,29 +67,26 @@ Employee option management page.
                     <label for="updateOptionPrice" class="col-sm-4 control-label"><spring:message
                             code="label.optionConnectionPrice"/></label>
                     <div class="col-sm-4">
-                        <input type="number" min="0" max="999" title="<spring:message code="input.optionPriceTitle"/>"
-                               class="form-control" id="updateOptionPrice"
-                               name="connectionPrice" placeholder="<spring:message code="label.optionConnectionPrice"/>"
+                        <input type="number" class="form-control" id="updateOptionPrice" name="connectionPrice"
+                               min="0" max="999" title="<spring:message code="input.optionPriceTitle"/>"
+                               data-error="<spring:message code="input.optionPriceTitle"/>"
+                               placeholder="<spring:message code="label.optionConnectionPrice"/>"
                                value="${editedOption.connectionPrice}" required>
                     </div>
-                    <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                        <form:errors path="editedOption.connectionPrice" />
-                    </div>
+                    <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="updateOptionMonthlyPayment" class="col-sm-4 control-label"><spring:message
                             code="label.optionMonthlyPayment"/></label>
                     <div class="col-sm-4">
-                        <input type="number" min="0" max="999"
-                               title="<spring:message code="input.optionMonthlyPaymentTitle"/>"
-                               class="form-control" id="updateOptionMonthlyPayment"
-                               name="monthlyPayment" placeholder="<spring:message code="label.optionMonthlyPayment"/>"
+                        <input type="number" class="form-control" id="updateOptionMonthlyPayment" name="monthlyPayment"
+                               min="0" max="999" title="<spring:message code="input.optionMonthlyPaymentTitle"/>"
+                               data-error="<spring:message code="input.optionMonthlyPaymentTitle"/>"
+                               placeholder="<spring:message code="label.optionMonthlyPayment"/>"
                                value="${editedOption.monthlyPayment}" required>
                     </div>
-                    <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                        <form:errors path="editedOption.monthlyPayment" />
-                    </div>
+                    <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
@@ -294,5 +293,6 @@ Employee option management page.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="${bootstrapMinJs}"></script>
+<script src="${validatorJs}"></script>
 </body>
 </html>

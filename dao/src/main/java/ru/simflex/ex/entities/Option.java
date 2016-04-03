@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.FetchType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,6 +37,7 @@ public class Option {
     /**
      * Name of option.
      */
+    @Pattern(regexp = "^[A-z0-9\\s]{2,30}$", message = "")
     @Size(min = 2, max = 30)
     @Column(name = "option_name", nullable = false, unique = true)
     private String name;

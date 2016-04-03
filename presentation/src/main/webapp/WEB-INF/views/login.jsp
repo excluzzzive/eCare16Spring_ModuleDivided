@@ -54,7 +54,7 @@ User login page.
                         <form class="form-signin" role="form" action="/userAuthenticate" method="post">
                             <div class="form-group">
                                 <input type="email" name="email" class="form-control input-lg"
-                                       placeholder="<spring:message code="label.yourEmail"/>" required autofocus>
+                                       placeholder="<spring:message code="label.yourEmail"/>" autofocus>
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" class="form-control input-lg"
@@ -124,8 +124,16 @@ User login page.
     </div>
 </div>
 
+<script type="text/javascript">
+    function emailValidate() {
+        var x = document.forms["myForm"]["email"].value;
+        if (x == null || x == "") {
+            alert("Name must be filled out");
+            return false;
+        }
+    }
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<%--<script src="${bootstrapMinJs}"></script>--%>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

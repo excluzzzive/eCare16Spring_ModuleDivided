@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -32,6 +33,7 @@ public class User {
      * First name of user.
      */
     @NotNull
+    @Pattern(regexp = "^[A-z]{2,20}$", message = "")
     @Size(min = 2, max = 20)
     @Column(name = "user_first_name", nullable = false)
     private String firstName;
@@ -40,6 +42,7 @@ public class User {
      * Last name of user.
      */
     @NotNull
+    @Pattern(regexp = "^[A-z]{2,20}$", message = "")
     @Size(min = 2, max = 20)
     @Column(name = "user_last_name", nullable = false)
     private String lastName;
@@ -56,6 +59,7 @@ public class User {
      * User's passport data.
      */
     @NotNull
+    @Pattern(regexp = "^[A-z0-9\\s]{8,40}$", message = "")
     @Size(min = 8, max = 40)
     @Column(name = "user_passport_data", nullable = false, unique = true)
     private String passportData;

@@ -13,6 +13,7 @@ import ru.simflex.ex.exceptions.UserDeletingException;
 import ru.simflex.ex.exceptions.UserReadingException;
 import ru.simflex.ex.exceptions.UserUpdatingException;
 import ru.simflex.ex.services.interfaces.UserService;
+import ru.simflex.ex.util.Utility;
 
 import java.util.*;
 
@@ -44,8 +45,11 @@ public class UserServiceImplementation implements UserService {
     @Transactional
     public User authUser(String email, String password) {
         try {
-            if (email != null) {
+            if (email != null && !email.isEmpty()) {
                 email = email.toLowerCase();
+            }
+            if (password != null && !password.isEmpty()) {
+                password = Utility.getHashedPassword(password);
             }
             return userDao.authUser(email, password);
         } catch (Exception e) {
@@ -134,7 +138,12 @@ public class UserServiceImplementation implements UserService {
     @Loggable
     public void createUser(User newUser) {
 
+        if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
+            throw new UserCreatingException("The password cannot be empty!");
+        }
+
         newUser.setEmail(newUser.getEmail().toLowerCase());
+        newUser.setPassword(Utility.getHashedPassword(newUser.getPassword()));
 
         try {
             userDao.create(newUser);
@@ -164,13 +173,15 @@ public class UserServiceImplementation implements UserService {
         }
 
         //User cannot disable his own employee functions
-        if (employee.getId() == editedUser.getId() && editedUser.isEmployee()) {
+        if (employee.getId() == editedUser.getId() && !editedUser.isEmployee()) {
             throw new UserUpdatingException("Trying to disable your own employee functions!");
         }
 
         //If password is empty leave it as in original one.
         if (editedUser.getPassword() == null || editedUser.getPassword().isEmpty()) {
             editedUser.setPassword(originalUser.getPassword());
+        } else {
+            editedUser.setPassword(Utility.getHashedPassword(editedUser.getPassword()));
         }
 
         try {

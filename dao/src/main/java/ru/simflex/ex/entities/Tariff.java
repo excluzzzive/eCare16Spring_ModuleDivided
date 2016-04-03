@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class Tariff {
     /**
      * Name of tariff.
      */
+    @Pattern(regexp = "^[A-z0-9\\s]{2,30}$", message = "")
     @Size(min = 2, max = 30)
     @Column(name = "tariff_name", nullable = false, unique = true)
     private String name;

@@ -48,4 +48,12 @@ public class UtilityTest {
         int result = Utility.getTotalPages(entityCount, limitPerPages);
         assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void getHashedPassword_Correct() {
+        String password = "password";
+        String expectedResult = "EFCED041A80373CCE89DC7FAF648421DA8F2AB19A3E7EDEBE6C21DECED09DAB7";
+        String result = Utility.getHashedPassword(password);
+        assertEquals(expectedResult, result);
+    }
 }

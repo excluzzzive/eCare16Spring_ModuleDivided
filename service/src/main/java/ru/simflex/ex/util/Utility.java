@@ -1,7 +1,11 @@
 package ru.simflex.ex.util;
 
+import ru.simflex.ex.exceptions.UserUpdatingException;
+
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
 
 /**
  * Utility class
@@ -10,6 +14,7 @@ public class Utility {
 
     /**
      * Parses string money amount into Double object.
+     *
      * @param priceString Text form of money amount
      * @return Double - money amount
      */
@@ -28,7 +33,8 @@ public class Utility {
 
     /**
      * Method counts number of pages for pagination by summ and limit.
-     * @param entityCount Quantity of entities
+     *
+     * @param entityCount  Quantity of entities
      * @param limitPerPage Limit of objects per page
      * @return Quantity of pages
      */
@@ -37,6 +43,19 @@ public class Utility {
             return (int) entityCount / limitPerPage;
         } else {
             return (int) entityCount / limitPerPage + 1;
+        }
+    }
+
+    public static String getHashedPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new UserUpdatingException("The password cannot be empty!");
+        }
+
+        try {
+            return DatatypeConverter.printHexBinary(
+                    MessageDigest.getInstance("SHA-256").digest((password + "sssaallttt").getBytes("UTF-8")));
+        } catch (Exception e) {
+            throw new UserUpdatingException("Something gone wrong, try again or contact system administrator!", e);
         }
     }
 

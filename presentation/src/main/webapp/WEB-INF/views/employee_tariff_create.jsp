@@ -16,6 +16,7 @@ Employee tariff management page.
     <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapMinCss"/>
     <spring:url value="/resources/img/favicon.ico" var="favicon"/>
     <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapMinJs"/>
+    <spring:url value="/resources/js/validator.js" var="validatorJs"/>
     <link href="${favicon}" rel="shortcut icon" type="image/x-icon">
     <link href="${myCss}" rel="stylesheet"/>
     <link href="${bootstrapMinCss}" rel="stylesheet"/>
@@ -29,19 +30,20 @@ Employee tariff management page.
     <div class="jumbotron">
 
         <%--Create Tariff Form--%>
-        <form class="form-horizontal" action="/employeeCreateTariff" method="post">
+        <form data-toggle="validator" class="form-horizontal" action="/employeeCreateTariff" method="post">
 
             <div class="form-group">
                 <label for="createTariffName" class="col-sm-4 control-label">
                     <spring:message code="label.tariffName"/></label>
                 <div class="col-sm-4">
-                    <input type="text" minlength="2" maxlength="30"
+                    <input type="text" class="form-control" id="createTariffName" name="name"
+                           maxlength="30" pattern="<spring:message code="input.tariffNamePattern"/>"
                            title="<spring:message code="input.tariffNameTitle"/>"
-                           class="form-control" id="createTariffName" name="name"
+                           data-error="<spring:message code="input.tariffNameTitle"/>"
                            placeholder="<spring:message code="label.tariffName"/>" value="${newTariff.name}" required>
                 </div>
-                <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                    <form:errors path="newTariff.name"/>
+                <div class="help-block with-errors"></div>
+                <div class="text-danger">
                     <c:if test="${!empty notUniqueTariffName}">
                         <spring:message code="label.${notUniqueTariffName}"/>
                     </c:if>
@@ -52,15 +54,15 @@ Employee tariff management page.
                     <spring:message code="label.tariffMonthlyPayment"/>
                 </label>
                 <div class="col-sm-4">
-                    <input type="number" min="0" max="999" title="<spring:message code="input.tariffPriceTitle"/>"
-                           class="form-control" id="createTariffMonthlyPayment"
+                    <input type="number" class="form-control" id="createTariffMonthlyPayment"
+                           min="0" max="999"
+                           title="<spring:message code="input.tariffPriceTitle"/>"
+                           data-error="<spring:message code="input.tariffPriceTitle"/>"
                            name="monthlyPayment" value="${newTariff.monthlyPayment}"
                            placeholder="<spring:message code="label.tariffMonthlyPayment"/>"
                            required>
                 </div>
-                <div class="col-sm-4 text-danger" style="padding-top: 7px">
-                    <form:errors path="newTariff.monthlyPayment" />
-                </div>
+                <div class="help-block with-errors"></div>
             </div>
 
             <%--Foreach for optionList--%>
@@ -95,5 +97,6 @@ Employee tariff management page.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="${bootstrapMinJs}"></script>
+<script src="${validatorJs}"></script>
 </body>
 </html>
