@@ -20,7 +20,7 @@ import java.util.List;
 public class UserWebService {
 
     @Autowired
-    ContractService contractService;
+    private ContractService contractService;
 
     @GET
     @Path("/list/{tariffId}")

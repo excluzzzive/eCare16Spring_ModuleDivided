@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
+import ru.simflex.ex.constants.Messages;
 import ru.simflex.ex.dao.interfaces.OptionDao;
 import ru.simflex.ex.dao.interfaces.TariffDao;
 import ru.simflex.ex.entities.Contract;
@@ -89,7 +90,7 @@ public class TariffServiceImplementation implements TariffService {
                 }
             }
         } catch (Exception e) {
-            throw new TariffUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -101,7 +102,7 @@ public class TariffServiceImplementation implements TariffService {
         try {
             return tariffDao.getAllEntities();
         } catch (Exception e) {
-            throw new TariffReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -116,7 +117,7 @@ public class TariffServiceImplementation implements TariffService {
             int id = Integer.parseInt(idString);
             tariff = tariffDao.read(id);
         } catch (Exception e) {
-            throw new TariffReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         if (tariff == null) {
@@ -130,7 +131,7 @@ public class TariffServiceImplementation implements TariffService {
         try {
             return tariffDao.getTariffByName(name);
         } catch (Exception e) {
-            throw new TariffReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -144,7 +145,7 @@ public class TariffServiceImplementation implements TariffService {
         try {
             tariffDao.create(newTariff);
         } catch (Exception e) {
-            throw new TariffCreatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffCreatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -162,7 +163,7 @@ public class TariffServiceImplementation implements TariffService {
         try {
             tariffDao.update(editedTariff);
         } catch (Exception e) {
-            throw new TariffUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -177,7 +178,7 @@ public class TariffServiceImplementation implements TariffService {
         try {
             contractList = contractService.getContractListByTariffId(idString);
         } catch (Exception e) {
-            throw new TariffDeletingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffDeletingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         if (contractList.isEmpty()) {
@@ -185,8 +186,7 @@ public class TariffServiceImplementation implements TariffService {
                 int id = Integer.parseInt(idString);
                 tariffDao.deleteById(id);
             } catch (Exception e) {
-                throw new TariffDeletingException("Something gone wrong," +
-                        " try again or contact system administrator! ", e);
+                throw new TariffDeletingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
             }
         } else {
             throw new TariffDeletingException("Illegal access to Delete Tariff action, which could not be completed!");
@@ -204,7 +204,7 @@ public class TariffServiceImplementation implements TariffService {
         try {
             tariffList = tariffDao.getAllEntities();
         } catch (Exception e) {
-            throw new TariffReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new TariffReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         if (tariffList != null && !tariffList.isEmpty()) {

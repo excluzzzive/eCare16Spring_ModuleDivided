@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
+import ru.simflex.ex.constants.Messages;
 import ru.simflex.ex.dao.interfaces.UserDao;
 import ru.simflex.ex.entities.Contract;
 import ru.simflex.ex.entities.User;
@@ -53,7 +54,7 @@ public class UserServiceImplementation implements UserService {
             }
             return userDao.authUser(email, password);
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -70,7 +71,7 @@ public class UserServiceImplementation implements UserService {
                 user.setPassword("");
             }
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
         return userList;
     }
@@ -115,7 +116,7 @@ public class UserServiceImplementation implements UserService {
             int id = Integer.parseInt(idString);
             return userDao.getUserContractListById(id);
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -127,7 +128,7 @@ public class UserServiceImplementation implements UserService {
         try {
             return userDao.isUserUsed(id);
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -148,7 +149,7 @@ public class UserServiceImplementation implements UserService {
         try {
             userDao.create(newUser);
         } catch (Exception e) {
-            throw new UserCreatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserCreatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -165,7 +166,7 @@ public class UserServiceImplementation implements UserService {
         try {
             originalUser = userDao.read(editedUser.getId());
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!");
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG);
         }
 
         if (originalUser == null) {
@@ -187,7 +188,7 @@ public class UserServiceImplementation implements UserService {
         try {
             userDao.update(editedUser);
         } catch (Exception e) {
-            throw new UserUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
     }
@@ -227,7 +228,7 @@ public class UserServiceImplementation implements UserService {
         try {
             return userDao.getUserByPassportData(passportData);
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -238,7 +239,7 @@ public class UserServiceImplementation implements UserService {
         try {
             return userDao.getUserByEmail(email);
         } catch (Exception e) {
-            throw new UserReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
+import ru.simflex.ex.constants.Messages;
 import ru.simflex.ex.dao.interfaces.PhoneNumberDao;
 import ru.simflex.ex.entities.PhoneNumber;
 import ru.simflex.ex.exceptions.PhoneNumberCreatingException;
@@ -57,8 +58,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         try {
             return phoneNumberDao.getAllEntitiesSorted();
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -70,8 +70,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         try {
             return phoneNumberDao.getAvailablePhoneNumberList();
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -91,8 +90,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
             try {
                 phoneNumberDao.create(phoneNumber);
             } catch (Exception e) {
-                throw new PhoneNumberCreatingException("Something gone wrong, " +
-                        "try again or contact system administrator!", e);
+                throw new PhoneNumberCreatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
             }
 
         } else {
@@ -110,8 +108,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         try {
             deletedPhoneNumber = phoneNumberDao.read(id);
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         if (deletedPhoneNumber != null && deletedPhoneNumber.isAvailable()) {
@@ -119,8 +116,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
             try {
                 phoneNumberDao.delete(deletedPhoneNumber);
             } catch (Exception e) {
-                throw new PhoneNumberDeletingException("Something gone wrong, " +
-                        "try again or contact system administrator!", e);
+                throw new PhoneNumberDeletingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
             }
 
         } else {
@@ -137,8 +133,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
             int id = Integer.parseInt(idString);
             return phoneNumberDao.read(id);
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -150,8 +145,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         try {
             return phoneNumberDao.getEntityCount();
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -162,8 +156,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
         try {
             return phoneNumberDao.getPhoneNumberByString(phoneNumberString);
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -179,8 +172,7 @@ public class PhoneNumberServiceImplementation implements PhoneNumberService {
 
             return phoneNumberDao.getPhoneNumberListByPage(page);
         } catch (Exception e) {
-            throw new PhoneNumberReadingException("Something gone wrong, " +
-                    "try again or contact system administrator!", e);
+            throw new PhoneNumberReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 

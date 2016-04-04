@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
+import ru.simflex.ex.constants.Messages;
 import ru.simflex.ex.dao.interfaces.*;
 import ru.simflex.ex.entities.Contract;
 import ru.simflex.ex.entities.Option;
@@ -123,7 +124,7 @@ public class ContractServiceImplementation implements ContractService {
         try {
             return contractDao.getAllEntitiesSorted();
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -135,7 +136,7 @@ public class ContractServiceImplementation implements ContractService {
         try {
             return contractDao.getAllEntitiesByUser(user);
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -147,7 +148,7 @@ public class ContractServiceImplementation implements ContractService {
             int id = Integer.parseInt(idString);
             return contractDao.getContractListByTariffId(id);
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -160,7 +161,7 @@ public class ContractServiceImplementation implements ContractService {
             int id = Integer.parseInt(idString);
             return contractDao.read(id);
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -174,7 +175,7 @@ public class ContractServiceImplementation implements ContractService {
             int id = Integer.parseInt(idString);
             contract = contractDao.getContractByUserAndId(user, id);
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
         if (contract == null) {
             throw new ContractReadingException("Contract not found!");
@@ -195,7 +196,7 @@ public class ContractServiceImplementation implements ContractService {
             int id = Integer.parseInt(idString);
             contract = contractDao.read(id);
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         if (contract == null) {
@@ -221,7 +222,7 @@ public class ContractServiceImplementation implements ContractService {
         try {
             contractDao.update(contract);
         } catch (Exception e) {
-            throw new ContractUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -233,11 +234,25 @@ public class ContractServiceImplementation implements ContractService {
     public void updateContract(Contract editedContract) {
 
         checkContractBlocked(String.valueOf(editedContract.getId()));
+        Tariff tariff;
+        try {
+            tariff = tariffDao.read(editedContract.getTariff().getId());
+        } catch (Exception e) {
+            throw new ContractUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
+        }
+
+        //If some options were deleted or have incompatible or joint options or unchecked from a tariff
+        List<Option> chosenOptionList = editedContract.getChosenOptions();
+        try {
+            checkChosenOptionListOnImpropriety(tariff, chosenOptionList);
+        } catch (Exception e) {
+            throw new ContractUpdatingException(e.getMessage());
+        }
 
         try {
             contractDao.update(editedContract);
         } catch (Exception e) {
-            throw new ContractUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -260,7 +275,7 @@ public class ContractServiceImplementation implements ContractService {
             contractDao.delete(contract);
 
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractDeletingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -288,28 +303,12 @@ public class ContractServiceImplementation implements ContractService {
             throw new ContractCreatingException("Tariff not found!");
         }
 
-        //If some options were deleted or have incompatible or joint options
+        //If some options were deleted or have incompatible or joint options or unchecked from a tariff
         List<Option> chosenOptionList = newContract.getChosenOptions();
-        if (chosenOptionList != null && !chosenOptionList.isEmpty()) {
-            List<Option> updatedChosenOptionList = new ArrayList<Option>();
-            for (Option option : chosenOptionList) {
-                Option updatedOption = optionDao.read(option.getId());
-                if (updatedOption != null) {
-                    updatedChosenOptionList.add(updatedOption);
-                } else {
-                    throw new ContractCreatingException("Option not found!");
-                }
-            }
-            Set<Option> chosenIncompatibleOptionSet = optionService.checkIncompatibleOptions(updatedChosenOptionList);
-            Set<Option> chosenJointOptionSet = optionService.checkJointOptions(updatedChosenOptionList);
-
-            if (chosenIncompatibleOptionSet != null && !chosenIncompatibleOptionSet.isEmpty()) {
-                throw new ContractCreatingException("Some options have incompatible options!");
-            }
-
-            if (chosenJointOptionSet != null && !chosenJointOptionSet.isEmpty()) {
-                throw new ContractCreatingException("Some options have joint options!");
-            }
+        try {
+            checkChosenOptionListOnImpropriety(tariff, chosenOptionList);
+        } catch (Exception e) {
+            throw new ContractCreatingException(e.getMessage());
         }
 
         try {
@@ -318,7 +317,7 @@ public class ContractServiceImplementation implements ContractService {
 
 
         } catch (Exception e) {
-            throw new ContractCreatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractCreatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -344,7 +343,7 @@ public class ContractServiceImplementation implements ContractService {
             int id = Integer.parseInt(idString);
             contractList = contractDao.getContractListByTariffId(id);
         } catch (Exception e) {
-            throw new ContractReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new ContractReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         if (contractList != null && !contractList.isEmpty()) {
@@ -368,6 +367,38 @@ public class ContractServiceImplementation implements ContractService {
 
 
         return wsUserList;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void checkChosenOptionListOnImpropriety(Tariff tariff, List<Option> chosenOptionList) {
+        if (chosenOptionList != null && !chosenOptionList.isEmpty()) {
+            List<Option> updatedChosenOptionList = new ArrayList<Option>();
+            for (Option option : chosenOptionList) {
+
+                if (!tariff.getPossibleOptions().contains(option)) {
+                    throw new ContractUpdatingException("Maybe some options were deleted or unchecked from a tariff!");
+                }
+
+                Option updatedOption = optionDao.read(option.getId());
+                if (updatedOption != null) {
+                    updatedChosenOptionList.add(updatedOption);
+                } else {
+                    throw new ContractUpdatingException("Option not found!");
+                }
+            }
+            Set<Option> chosenIncompatibleOptionSet = optionService.checkIncompatibleOptions(updatedChosenOptionList);
+            Set<Option> chosenJointOptionSet = optionService.checkJointOptions(updatedChosenOptionList);
+
+            if (chosenIncompatibleOptionSet != null && !chosenIncompatibleOptionSet.isEmpty()) {
+                throw new ContractUpdatingException("Some options have incompatible options!");
+            }
+
+            if (chosenJointOptionSet != null && !chosenJointOptionSet.isEmpty()) {
+                throw new ContractUpdatingException("Some options have joint options!");
+            }
+        }
     }
 }
 

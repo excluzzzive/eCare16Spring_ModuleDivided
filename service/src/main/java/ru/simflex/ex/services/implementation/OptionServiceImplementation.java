@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.simflex.ex.annotations.Loggable;
+import ru.simflex.ex.constants.Messages;
 import ru.simflex.ex.dao.interfaces.OptionDao;
 import ru.simflex.ex.dao.interfaces.TariffDao;
 import ru.simflex.ex.entities.Contract;
@@ -66,7 +67,7 @@ public class OptionServiceImplementation implements OptionService {
         try {
             return optionDao.getAllEntities();
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -88,7 +89,7 @@ public class OptionServiceImplementation implements OptionService {
                 }
             }
         } catch (Exception e) {
-            throw new OptionCreatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionCreatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -105,7 +106,7 @@ public class OptionServiceImplementation implements OptionService {
             optionUsedByContractList = optionDao.getOptionUsedByContractList(updatedOption.getId());
             originalOption = optionDao.read(updatedOption.getId());
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         /*If someone trying to fabricate request and to update option incompatible or joint lists which
@@ -156,7 +157,7 @@ public class OptionServiceImplementation implements OptionService {
             optionDao.update(updatedOption);
 
         } catch (Exception e) {
-            throw new OptionUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -178,7 +179,7 @@ public class OptionServiceImplementation implements OptionService {
             optionUsedByContractList = optionDao.getOptionUsedByContractList(editedOptionId);
             optionUsedAsJointOptionList = optionDao.getOptionUsedAsJointOptionList(editedOptionId);
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
 
         Boolean isOptionDeletable = optionUsedByContractList.isEmpty() && optionUsedAsJointOptionList.isEmpty();
@@ -202,8 +203,7 @@ public class OptionServiceImplementation implements OptionService {
                     }
                 }
             } catch (Exception e) {
-                throw new OptionDeletingException("Something gone wrong, " +
-                        "try again or contact system administrator!", e);
+                throw new OptionDeletingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
             }
 
             optionDao.delete(editedOption);
@@ -235,8 +235,7 @@ public class OptionServiceImplementation implements OptionService {
                     Option option = optionDao.read(id);
                     list.add(option);
                 } catch (Exception e) {
-                    throw new OptionReadingException("Something gone wrong, " +
-                            "try again or contact system administrator!", e);
+                    throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
                 }
             }
         }
@@ -266,7 +265,7 @@ public class OptionServiceImplementation implements OptionService {
         try {
             return optionDao.getOptionByName(name);
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -279,7 +278,7 @@ public class OptionServiceImplementation implements OptionService {
             int id = Integer.parseInt(idString);
             return optionDao.getOptionUsedByTariffList(id);
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -292,7 +291,7 @@ public class OptionServiceImplementation implements OptionService {
             int id = Integer.parseInt(idString);
             return optionDao.getOptionUsedByContractList(id);
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -305,7 +304,7 @@ public class OptionServiceImplementation implements OptionService {
             int id = Integer.parseInt(idString);
             return optionDao.getOptionUsedAsJointOptionList(id);
         } catch (Exception e) {
-            throw new OptionReadingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new OptionReadingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 
@@ -318,10 +317,12 @@ public class OptionServiceImplementation implements OptionService {
 
         if (chosenOptions != null && !chosenOptions.isEmpty()) {
             for (Option option : chosenOptions) {
-                for (Option incompatibleOption : option.getIncompatibleOptions()) {
-                    if (chosenOptions.contains(incompatibleOption)) {
-                        incompatibleOptions.add(option);
-                        incompatibleOptions.add(incompatibleOption);
+                if (option != null) {
+                    for (Option incompatibleOption : option.getIncompatibleOptions()) {
+                        if (chosenOptions.contains(incompatibleOption)) {
+                            incompatibleOptions.add(option);
+                            incompatibleOptions.add(incompatibleOption);
+                        }
                     }
                 }
             }
@@ -338,19 +339,21 @@ public class OptionServiceImplementation implements OptionService {
 
         if (chosenOptions != null && !chosenOptions.isEmpty()) {
             for (Option option : chosenOptions) {
-                List<Option> jointOptionList = option.getJointOptions();
+                if (option != null) {
+                    List<Option> jointOptionList = option.getJointOptions();
 
-                if (jointOptionList != null && !jointOptionList.isEmpty()) {
-                    Boolean hasJoint = false;
+                    if (jointOptionList != null && !jointOptionList.isEmpty()) {
+                        Boolean hasJoint = false;
 
-                    for (Option jointOption : jointOptionList) {
-                        if (chosenOptions.contains(jointOption)) {
-                            hasJoint = true;
+                        for (Option jointOption : jointOptionList) {
+                            if (chosenOptions.contains(jointOption)) {
+                                hasJoint = true;
+                            }
                         }
-                    }
 
-                    if (!hasJoint) {
-                        jointOptionsSet.add(option);
+                        if (!hasJoint) {
+                            jointOptionsSet.add(option);
+                        }
                     }
                 }
             }

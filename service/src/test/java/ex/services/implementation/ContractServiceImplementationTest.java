@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import ru.simflex.ex.dao.interfaces.*;
 import ru.simflex.ex.entities.*;
 import ru.simflex.ex.exceptions.ContractCreatingException;
+import ru.simflex.ex.exceptions.ContractDeletingException;
 import ru.simflex.ex.exceptions.ContractReadingException;
 import ru.simflex.ex.exceptions.ContractUpdatingException;
 import ru.simflex.ex.services.implementation.ContractServiceImplementation;
@@ -268,9 +269,12 @@ public class ContractServiceImplementationTest {
     @Test
     public void updateContract_Correct() {
         Contract contract = getContractBlocked(1, false);
+        Tariff tariff = getTariff(1);
+        contract.setTariff(tariff);
 
         doNothing().when(contractDao).update(contract);
         when(contractDao.read(1)).thenReturn(contract);
+        when(tariffDao.read(1)).thenReturn(tariff);
 
         contractService.updateContract(contract);
         verify(contractDao, times(1)).read(1);
@@ -312,13 +316,13 @@ public class ContractServiceImplementationTest {
         verify(contractDao, times(1)).delete(contract);
     }
 
-    @Test(expected = ContractReadingException.class)
+    @Test(expected = ContractDeletingException.class)
     public void deleteContractById_Must_Throw_Exception_If_Contract_Is_Already_Deleted() {
         when(contractDao.read(1)).thenReturn(null);
         contractService.deleteContractById("1");
     }
 
-    @Test(expected = ContractReadingException.class)
+    @Test(expected = ContractDeletingException.class)
     public void deleteContractById_Must_Throw_Exception_If_Contract_Is_Blocked() {
         Contract contract = getContractBlocked(1, true);
 
@@ -328,7 +332,7 @@ public class ContractServiceImplementationTest {
         contractService.deleteContractById("1");
     }
 
-    @Test(expected = ContractReadingException.class)
+    @Test(expected = ContractDeletingException.class)
     @SuppressWarnings("unchecked")
     public void deleteContractById_Must_Throw_Exception() {
         when(contractDao.read(1)).thenThrow(Exception.class);

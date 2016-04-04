@@ -46,8 +46,7 @@ public abstract class GenericDaoImplementation<E> implements GenericDao<E>  {
      * {@inheritDoc}
      */
     public E read(Integer id) {
-        E result = entityManager.find(entityType, id);
-        return result;
+        return entityManager.find(entityType, id);
     }
 
     /**
@@ -78,8 +77,7 @@ public abstract class GenericDaoImplementation<E> implements GenericDao<E>  {
     @SuppressWarnings("unchecked")
     public List<E> getAllEntities() {
         Query query = entityManager.createQuery("SELECT e FROM " + entityType.getSimpleName() + " e");
-        List<E> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
     /**
@@ -88,7 +86,6 @@ public abstract class GenericDaoImplementation<E> implements GenericDao<E>  {
     public long getEntityCount() {
         Query query = entityManager.createQuery("SELECT count(e) FROM " + entityType.getSimpleName() + " e");
         List resultList = query.getResultList();
-        Long result = (Long) resultList.get(0);
-        return result;
+        return (Long) resultList.get(0);
     }
 }

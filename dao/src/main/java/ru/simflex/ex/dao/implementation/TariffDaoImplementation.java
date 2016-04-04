@@ -29,7 +29,7 @@ public class TariffDaoImplementation extends GenericDaoImplementation<Tariff> im
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public Boolean isTariffUsed(Integer id) {
+    public boolean isTariffUsed(Integer id) {
         Query query = entityManager.createQuery("SELECT e FROM Contract e JOIN e.tariff t WHERE t.id = :id");
         query.setParameter("id", id);
         List<Contract> contractList = query.getResultList();
@@ -41,15 +41,10 @@ public class TariffDaoImplementation extends GenericDaoImplementation<Tariff> im
      */
     @SuppressWarnings("unchecked")
     public Tariff getTariffByName(String name) {
-        Tariff result;
         Query query = entityManager.createQuery("SELECT t FROM Tariff t WHERE t.name = :name");
         query.setParameter("name", name);
         List<Tariff> tariffList = query.getResultList();
-        if (tariffList.isEmpty()) {
-            result = null;
-        } else {
-            result = tariffList.get(0);
-        }
-        return result;
+
+        return tariffList.isEmpty() ? null : tariffList.get(0);
     }
 }

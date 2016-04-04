@@ -1,5 +1,6 @@
 package ru.simflex.ex.util;
 
+import ru.simflex.ex.constants.Messages;
 import ru.simflex.ex.exceptions.UserUpdatingException;
 
 import javax.xml.bind.DatatypeConverter;
@@ -10,7 +11,7 @@ import java.security.MessageDigest;
 /**
  * Utility class
  */
-public class Utility {
+public final class Utility {
 
     /**
      * Parses string money amount into Double object.
@@ -61,7 +62,7 @@ public class Utility {
             return DatatypeConverter.printHexBinary(
                     MessageDigest.getInstance("SHA-256").digest((password + "sssaallttt").getBytes("UTF-8")));
         } catch (Exception e) {
-            throw new UserUpdatingException("Something gone wrong, try again or contact system administrator!", e);
+            throw new UserUpdatingException(Messages.EXCEPTION_MESSAGE_SOMETHING_GONE_WRONG, e);
         }
     }
 

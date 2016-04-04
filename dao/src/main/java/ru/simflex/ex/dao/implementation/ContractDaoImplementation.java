@@ -66,21 +66,13 @@ public class ContractDaoImplementation extends GenericDaoImplementation<Contract
      */
     @SuppressWarnings("unchecked")
     public Contract getContractByUserAndId(User user, int id) {
-
-        Contract result = null;
         Query query = entityManager.createQuery("SELECT c FROM Contract c JOIN c.user u " +
                 "WHERE u.id = :userId AND c.id = :contractId");
         query.setParameter("userId", user.getId());
         query.setParameter("contractId", id);
         List<Contract> contractList = query.getResultList();
-        if (!contractList.isEmpty()) {
-            result = contractList.get(0);
-        }
-        Optional<Contract> optional = Optional.ofNullable(result);
-        if (optional.isPresent()) {
-            Contract newContract = optional.get();
-        }
-        return result;
+
+        return contractList.isEmpty() ? null : contractList.get(0);
     }
 
     /**

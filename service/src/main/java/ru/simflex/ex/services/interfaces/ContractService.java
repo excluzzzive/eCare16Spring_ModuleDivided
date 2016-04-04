@@ -93,8 +93,19 @@ public interface ContractService {
 
     /**
      * Method for web service. Return list of special web service user objects by tariff name.
+     *
      * @param idString Id of tariff
      * @return List of WSUser object
      */
     List<WSUser> getWSUserListByTariffId(String idString);
+
+    /**
+     * Special method that checks Option list on impropriety (for example Option was deleted)
+     *
+     * @param tariff           Tariff object
+     * @param chosenOptionList List of contract chosen options
+     */
+    public void checkChosenOptionListOnImpropriety(Tariff tariff, List<Option> chosenOptionList);
+
+
 }

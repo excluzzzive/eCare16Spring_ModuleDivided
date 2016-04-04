@@ -15,7 +15,7 @@ public interface TariffDao extends GenericDao<Tariff> {
      * @param id Id of tariff
      * @return Boolean flag
      */
-    Boolean isTariffUsed(Integer id);
+    boolean isTariffUsed(Integer id);
 
     /**
      * Returns a tariff object from DB by name.

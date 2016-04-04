@@ -31,16 +31,11 @@ public class OptionDaoImplementation extends GenericDaoImplementation<Option> im
      */
     @SuppressWarnings("unchecked")
     public Option getOptionByName(String name) {
-        Option result;
         Query query = entityManager.createQuery("SELECT o FROM Option o WHERE o.name = :name");
         query.setParameter("name", name);
         List<Option> optionList = query.getResultList();
-        if (optionList.isEmpty()) {
-            result = null;
-        } else {
-            result = optionList.get(0);
-        }
-        return result;
+
+        return optionList.isEmpty() ? null : optionList.get(0);
     }
 
     /**

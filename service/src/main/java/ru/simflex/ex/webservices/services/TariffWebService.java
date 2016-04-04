@@ -19,7 +19,7 @@ import java.util.List;
 public class TariffWebService {
 
     @Autowired
-    TariffService tariffService;
+    private TariffService tariffService;
 
     @GET
     @Path("/list")

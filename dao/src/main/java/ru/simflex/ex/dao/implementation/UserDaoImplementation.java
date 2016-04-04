@@ -31,16 +31,13 @@ public class UserDaoImplementation extends GenericDaoImplementation<User> implem
      */
     @SuppressWarnings("unchecked")
     public User authUser(String email, String password) {
-        User result = null;
         String queryString = "SELECT u FROM User u WHERE u.email=:email AND u.password=:password";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("email", email);
         query.setParameter("password", password);
         List<User> resultList = query.getResultList();
-        if (!resultList.isEmpty()) {
-            result = resultList.get(0);
-        }
-        return result;
+
+        return resultList.isEmpty() ? null : resultList.get(0);
     }
 
     /**
@@ -50,8 +47,7 @@ public class UserDaoImplementation extends GenericDaoImplementation<User> implem
     public List<User> getAllEntitiesSorted() {
         String queryString = "SELECT e FROM User e ORDER BY e.firstName ASC";
         Query query = entityManager.createQuery(queryString);
-        List<User> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
     /**
@@ -91,16 +87,11 @@ public class UserDaoImplementation extends GenericDaoImplementation<User> implem
      */
     @SuppressWarnings("unchecked")
     public User getUserByPassportData(String passportData) {
-        User result;
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.passportData = :passportData");
         query.setParameter("passportData", passportData);
         List<User> userList = query.getResultList();
-        if (userList.isEmpty()) {
-            result = null;
-        } else {
-            result = userList.get(0);
-        }
-        return result;
+
+        return userList.isEmpty() ? null : userList.get(0);
     }
 
     /**
@@ -108,15 +99,10 @@ public class UserDaoImplementation extends GenericDaoImplementation<User> implem
      */
     @SuppressWarnings("unchecked")
     public User getUserByEmail(String email) {
-        User result;
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email");
         query.setParameter("email", email);
         List<User> userList = query.getResultList();
-        if (userList.isEmpty()) {
-            result = null;
-        } else {
-            result = userList.get(0);
-        }
-        return result;
+
+        return userList.isEmpty() ? null : userList.get(0);
     }
 }

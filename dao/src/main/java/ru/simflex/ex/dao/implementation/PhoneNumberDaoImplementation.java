@@ -49,17 +49,12 @@ public class PhoneNumberDaoImplementation extends GenericDaoImplementation<Phone
      */
     @SuppressWarnings("unchecked")
     public PhoneNumber getPhoneNumberByString(String phoneNumberString) {
-        PhoneNumber result;
         Query query = entityManager.createQuery("SELECT p FROM PhoneNumber p " +
                 "WHERE p.phoneNumberString = :phoneNumberString");
         query.setParameter("phoneNumberString", phoneNumberString);
         List<PhoneNumber> phoneNumberList = query.getResultList();
-        if (phoneNumberList.isEmpty()) {
-            result = null;
-        } else {
-            result = phoneNumberList.get(0);
-        }
-        return result;
+
+        return phoneNumberList.isEmpty() ? null : phoneNumberList.get(0);
     }
 
     /**
