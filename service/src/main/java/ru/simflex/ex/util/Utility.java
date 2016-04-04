@@ -46,6 +46,12 @@ public class Utility {
         }
     }
 
+    /**
+     * Method encrypts password with a salt.
+     *
+     * @param password Password to be encrypted
+     * @return Hash string of password
+     */
     public static String getHashedPassword(String password) {
         if (password == null || password.isEmpty()) {
             throw new UserUpdatingException("The password cannot be empty!");
